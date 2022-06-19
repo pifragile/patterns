@@ -6,10 +6,12 @@ let pg, pg2;
 let myShader;
 let inputHash = fxhash;
 
+// math
 Number.prototype.mod = function (n) {
     return ((this % n) + n) % n;
 };
 
+// p5
 function setSeeds(hash) {
     num = hash.split("").reduce((acc, cur) => acc * cur.charCodeAt(0), 1);
     num = num / 10 ** 90;
@@ -72,6 +74,7 @@ function windowResized() {
     setImage();
 }
 
+// box
 Box = class {
     constructor(x, y, w, h) {
         this.x = x;
@@ -156,6 +159,7 @@ Box = class {
     }
 };
 
+// palette
 let palette;
 function setPalette() {
     if (palettes.length > 0) {
@@ -166,4 +170,30 @@ function setPalette() {
             .map((x) => pg.color(`#${x}`));
         if (permutePalettes) palette = shuffle(palette);
     }
+}
+
+// gradients
+function getBoxGradient(b, x1r, y1r, x2r, y2r, steps) {
+    let [x1, y1] = b.coords(x1r, y1r);
+    let [x2, y2] = b.coords(x2r, y2r);
+    return getGradient(x1, y1, x2, y2, steps);
+}
+
+function getGradient(x1, y1, x2, y2, steps) {
+    gradient = pg.drawingContext.createLinearGradient(x1, y1, x2, y2);
+
+    s = 1 / (steps.length - 1);
+    for (let i = 0; i < steps.length; i++) {
+        gradient.addColorStop(i * s, steps[i]);
+    }
+
+    return gradient;
+}
+
+function fillGradient(g) {
+    pg.drawingContext.fillStyle = g;
+}
+
+function strokeGradient(g) {
+    pg.drawingContext.strokeStyle = g;
 }

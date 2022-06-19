@@ -16,12 +16,14 @@ function makeSketch() {
     let b = new Box(500, 500, 1000, 1000);
     pg.background(palette[1]);
 
-    pg.fill(palette[3]);
+    let gradient = getBoxGradient(b, 0, 0, 1, 1, palette.slice(0, 3));
+    fillGradient(gradient);
     pg.rect(b.x, b.y, b.w, b.h);
 
     pg.rectMode(CENTER);
     pg.fill(palette[0]);
     pg.rect(b.tl.x, b.tl.y, 400, 400);
+
     pg.fill(palette[2]);
     pg.rect(b.br.x, b.br.y, 400, 400);
 }
