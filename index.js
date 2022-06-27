@@ -18,7 +18,7 @@ function makeSketch() {
 
     let gradient = getBoxGradient(b, 0, 0, 1, 1, palette.slice(0, 3));
     fillGradient(gradient);
-    pg.rect(b.x, b.y, b.w, b.h);
+    b.rect()
 
     pg.rectMode(CENTER);
     pg.fill(palette[0]);
@@ -26,4 +26,10 @@ function makeSketch() {
 
     pg.fill(palette[2]);
     pg.rect(b.br.x, b.br.y, 400, 400);
+
+    let grid = b.gridify(2, 5);
+
+    pg.rectMode(CORNER);
+    pg.fill(palette[3]);
+    grid[0][4].rect()
 }

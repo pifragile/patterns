@@ -96,13 +96,13 @@ Box = class {
         let boxWidth = this.w / gridWidth;
         let boxHeight = this.h / gridHeight;
 
-        for (let i = 0; i < gridHeight; i++) {
+        for (let i = 0; i < gridWidth; i++) {
             grid.push([]);
-            for (let j = 0; j < gridWidth; j++) {
+            for (let j = 0; j < gridHeight; j++) {
                 grid[i].push(
                     new Box(
-                        this.x + boxWidth * j,
-                        this.y + boxHeight * i,
+                        this.x + boxWidth * i,
+                        this.y + boxHeight * j,
                         boxWidth,
                         boxHeight
                     )
@@ -156,6 +156,10 @@ Box = class {
         pg.translate(-this.c.x, -this.c.y);
         pg.image(img, this.x, this.y, this.w, this.h);
         pg.pop();
+    }
+
+    rect() {
+        pg.rect(this.x, this.y, this.w, this.h);
     }
 };
 
