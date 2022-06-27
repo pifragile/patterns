@@ -27,9 +27,26 @@ function makeSketch() {
     pg.fill(palette[2]);
     pg.rect(b.br.x, b.br.y, 400, 400);
 
-    let grid = b.gridify(2, 5);
+    let grid = b.gridify(3, 5);
 
     pg.rectMode(CORNER);
     pg.fill(palette[3]);
     grid[0][4].rect()
+
+    grid[1][0].triangle2tl()
+    grid[1][1].triangle2tr()
+    grid[1][2].triangle2br()
+    grid[1][3].triangle2bl()
+
+    grid[2][0].triangle4l()
+    grid[2][1].triangle4t()
+    grid[2][2].triangle4r()
+    grid[2][3].triangle4b()
+
+    grid[0][2].rect()
+    grid[0][2].circle(1)
+
+    let grid2 = grid[0][3].gridify(3, 1)
+    grid2[1][0].rect()
+    grid2[1][0].circle(1)
 }

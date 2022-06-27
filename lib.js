@@ -161,7 +161,46 @@ Box = class {
     rect() {
         pg.rect(this.x, this.y, this.w, this.h);
     }
+
+    triangle2tl() {
+        vecTriangle(this.tl, this.tr, this.bl)
+    }
+
+    triangle2tr() {
+        vecTriangle(this.tl, this.tr, this.br)
+    }
+
+    triangle2br() {
+        vecTriangle(this.br, this.tr, this.bl)
+    }
+
+    triangle2bl() {
+        vecTriangle(this.bl, this.tl, this.br)
+    }
+
+    triangle4l() {
+        vecTriangle(this.tl, this.bl, this.c)
+    }
+
+    triangle4t() {
+        vecTriangle(this.tl, this.tr, this.c)
+    }
+
+    triangle4r() {
+        vecTriangle(this.tr, this.br, this.c)
+    }
+
+    triangle4b() {
+        vecTriangle(this.bl, this.br, this.c)
+    }
+
+    circle(r) {
+        pg.circle(this.c.x, this.c.y, r * Math.min(this.w, this.h))
+    }
 };
+function vecTriangle(a, b, c) {
+    pg.triangle(a.x, a.y, b.x, b.y, c.x, c.y)
+}
 
 // palette
 let palette;
