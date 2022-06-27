@@ -33,15 +33,15 @@ function makeSketch() {
     pg.fill(palette[3]);
     grid[0][4].rect()
 
-    grid[1][0].triangle2tl()
-    grid[1][1].triangle2tr()
-    grid[1][2].triangle2br()
-    grid[1][3].triangle2bl()
+    grid[1][0].triangle2('tl')
+    grid[1][1].triangle2('tr')
+    grid[1][2].triangle2('br')
+    grid[1][3].triangle2('bl')
 
-    grid[2][0].triangle4l()
-    grid[2][1].triangle4t()
-    grid[2][2].triangle4r()
-    grid[2][3].triangle4b()
+    grid[2][0].triangle4('l')
+    grid[2][1].triangle4('t')
+    grid[2][2].triangle4('r')
+    grid[2][3].triangle4('b')
 
     grid[0][2].rect()
     grid[0][2].circle(1)
