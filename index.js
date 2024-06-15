@@ -71,7 +71,7 @@ function drawCurve(b) {
 }
 
 function fillBox(b) {
-    let sw = 0.01 * b.w;
+    let sw = 0.005 * b.w;
     pg.strokeWeight(sw);
     pg.stroke(palette[3]);
 
@@ -113,12 +113,13 @@ function makeSketch() {
     let grid = b.gridify(gs, gs);
     grid.forEach((r) => r.forEach((bo) => fillBox(bo)));
 
+    let nf = 0.03
     for (let k = 0; k < 10; k++) {
         for (let i = 0; i < gs; i++) {
             for (let j = 0; j < gs; j++) {
                 let box = grid[j][i];
                 pg.push();
-                pg.translate(0, noise(j, k) * box.h);
+                pg.translate(0, noise(i * nf, k * nf) * box.h);
                 fillBox(box);
                 pg.pop();
             }
