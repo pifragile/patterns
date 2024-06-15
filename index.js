@@ -71,28 +71,25 @@ function drawCurve(b) {
 }
 
 function fillBox(b) {
-    let sw = 0.01 * b.w
+    let sw = 0.01 * b.w;
     pg.strokeWeight(sw);
     pg.stroke(palette[3]);
 
-
     drawCurve(b);
-    pg.push()
+    pg.push();
     pg.scale(-1, 1);
     pg.translate(-(2 * b.x + b.w), 0);
     pg.strokeWeight(sw);
     pg.stroke(palette[3]);
     drawCurve(b);
     pg.pop();
-
 
     pg.push();
     pg.scale(1, -1);
     pg.translate(0, -(2 * b.y + b.h));
 
-
     drawCurve(b);
-    pg.push()
+    pg.push();
     pg.scale(-1, 1);
     pg.translate(-(2 * b.x + b.w), 0);
     pg.strokeWeight(sw);
@@ -100,25 +97,33 @@ function fillBox(b) {
     drawCurve(b);
     pg.pop();
 
-
-
-
     pg.pop();
 }
 function makeSketch() {
     let b = new Box(0.08 * cs, 0, cs * 0.84, cs);
-    b = new Box(0, 0, cs, cs)
+    b = new Box(0, 0, cs, cs);
     pg.background(palette[1]);
 
     pg.fill(palette[2]);
     pg.noStroke();
     b.rect();
 
+    pg.noFill()
+    let gs = 6;
+    let grid = b.gridify(gs, gs);
+    grid.forEach((r) => r.forEach((bo) => fillBox(bo)));
 
-    let grid = b.gridify(6, 6);
-    grid.forEach((r) =>
-        r.forEach((bo) => fillBox(bo))
-    );
+    for (let k = 0; k < 10; k++) {
+        for (let i = 0; i < gs; i++) {
+            for (let j = 0; j < gs; j++) {
+                let box = grid[j][i];
+                pg.push();
+                pg.translate(0, noise(j, k) * box.h);
+                fillBox(box);
+                pg.pop();
+            }
+        }
+    }
 
-    fillBox(b)
+    //fillBox(b)
 }
