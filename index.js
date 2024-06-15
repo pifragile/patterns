@@ -122,7 +122,7 @@ function makeSketch() {
             for (let j = 0; j < gs; j++) {
                 let box = grid[j][i];
                 pg.push();
-                pg.translate(0, noise(i * nf, k * nf) * box.h);
+                pg.translate(0, noise(i * nf, k * nf) * box.h - 0.09 * b.h);
                 fillBox(box);
                 pg.pop();
             }
