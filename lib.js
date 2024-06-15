@@ -162,6 +162,10 @@ Box = class {
         pg.rect(this.x, this.y, this.w, this.h);
     }
 
+    area() {
+        return this.w * this.h;
+    }
+
     triangle2(oriantation) {
         switch (oriantation) {
             case "tl":
@@ -199,7 +203,28 @@ Box = class {
     circle(r) {
         pg.circle(this.c.x, this.c.y, r * Math.min(this.w, this.h));
     }
+
+    subBox(ratio) {
+        const ratio2 = (1 - ratio) * 0.5;
+        return new Box(
+            this.x + ratio2 * this.w,
+            this.y + ratio2 * this.h,
+            ratio * this.w,
+            ratio * this.h
+        );
+    }
+
+    subBoxRect() {
+        if (this.w > this.h) {
+            const diff = this.w - this.h;
+            return new Box(this.x + diff * 0.5, this.y, this.w - diff, this.h);
+        } else {
+            const diff = this.h - this.w;
+            return new Box(this.x, this.y + diff * 0.5, this.w, this.h - diff);
+        }
+    }
 };
+
 function vecTriangle(a, b, c) {
     pg.triangle(a.x, a.y, b.x, b.y, c.x, c.y);
 }
