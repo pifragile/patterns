@@ -38,7 +38,7 @@ palettes = [
 
 palettes = [
     // soft
-    //'https://coolors.co/ec98ac-f4f1d7-e31d34-2b2671-c5dba5-90d0e3-f4bc6d-89c9b8-221e1f',
+    'https://coolors.co/ec98ac-f4f1d7-e31d34-2b2671-c5dba5-90d0e3-f4bc6d-89c9b8-221e1f',
     // 2
     "https://coolors.co/ff85a1-fffacc-ff001e-0a0099-ccff80-75dfff-ffbd61-52ffd1-420011",
 
@@ -101,7 +101,10 @@ function fillBox(b) {
 }
 function makeSketch() {
     let b = new Box(0.08 * cs, 0, cs * 0.84, cs);
-    b = new Box(0, 0, cs, cs);
+    let margin = 0.15;
+    let w = 1 - 2 * margin;
+    b = new Box(margin * cs, margin * cs, w * cs, w * cs);
+
     pg.background(palette[1]);
 
     pg.fill(palette[2]);
@@ -109,7 +112,7 @@ function makeSketch() {
     b.rect();
 
     pg.noFill()
-    let gs = 6;
+    let gs = 4;
     let grid = b.gridify(gs, gs);
     //grid.forEach((r) => r.forEach((bo) => fillBox(bo)));
 

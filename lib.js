@@ -66,7 +66,7 @@ function should_save() {
 
 function keyPressed() {
     if (keyCode === LEFT_ARROW) {
-        save(`${inputHash}.png`);
+        pg2.save(`${inputHash}.png`);
     }
 }
 
