@@ -1,6 +1,5 @@
 let pg;
-let cs = isRendering ? 8000 : 4000;
-let cs2 = cs * 0.5;
+let cs = isRendering ? 8000 : 3000;
 
 function draw() {
     seedRandomness();
@@ -22,7 +21,8 @@ function windowResized() {
 function setup() {
     noLoop();
     is = min(windowHeight, windowWidth);
-    createCanvas(is, is, WEBGL);
+    let canvas = createCanvas(is, is).elt;
+
     pg = createGraphics(cs, cs);
     pg.colorMode(HSB);
     pg.pixelDensity(1);
@@ -45,12 +45,14 @@ function setImage() {
     clear();
     is = min(windowHeight, windowWidth);
     resizeCanvas(is, is);
-
-    shader(myShader);
-    myShader.setUniform("u_resolution", [is, is]);
-    myShader.setUniform("u_background", pg);
-    myShader.setUniform("u_pixeldensity", pixelDensity());
-    rect(0, 0, cs, cs);
+    // img = pg.get
+    // img.resize(is, is)
+    copy(pg, 0, 0, cs, cs, 0, 0, is, is)
+    // shader(myShader);
+    // myShader.setUniform("u_resolution", [is, is]);
+    // myShader.setUniform("u_background", pg);
+    // myShader.setUniform("u_pixeldensity", pixelDensity());
+    // rect(0, 0, cs, cs);
 }
 
 function preload() {
@@ -117,6 +119,7 @@ function fillBox(b) {
     pg.pop();
 }
 function drawArt() {
+    //cs = min(windowHeight, windowWidth)
     noiseSeed(random1ofx() * 99999999999999)
     for (let _i = 0; _i < 14; _i++) {
         random1ofx();

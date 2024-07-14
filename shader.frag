@@ -38,7 +38,7 @@ void main() {
   vec4 tex = texture2D(u_background, uv);
 
   // try the green component
-  float range = 0.1;
+  float range = 0.0;
   float r = map(random(vTexCoord, 2.5) + random(vTexCoord, 3.14) + random(vTexCoord, 2.), 0., 3., -range, range);
 
   gl_FragColor = vec4(tex.r + r, tex.g + r, tex.b + r, tex.a + r);
