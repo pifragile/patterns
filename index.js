@@ -1,48 +1,65 @@
-////////////////////
-//////Config
-////////////////////
-let cs = 2000;
+let pg;
+let cs = isRendering ? 8000 : 4000;
 let cs2 = cs * 0.5;
-// format: https://coolors.co/....
+
+function draw() {
+    seedRandomness();
+    pg.clear();
+    drawArt();
+    setImage();
+}
+
+function keyPressed() {
+    if (keyCode === LEFT_ARROW) {
+        save();
+    }
+}
+
+function windowResized() {
+    setImage();
+}
+
+function setup() {
+    noLoop();
+    is = min(windowHeight, windowWidth);
+    createCanvas(is, is, WEBGL);
+    pg = createGraphics(cs, cs);
+    pg.colorMode(HSB);
+    pg.pixelDensity(1);
+}
+
+let palette;
+function setPalette() {
+    if (palettes.length > 0) {
+        palette = randomElem(palettes, random1ofx);
+        palette = palette
+            .split("https://coolors.co/")[1]
+            .split("-")
+            .map((x) => pg.color(`#${x}`));
+        if (permutePalettes) palette = shuffleArr(palette, random1ofx);
+    }
+}
+
+
+function setImage() {
+    clear();
+    is = min(windowHeight, windowWidth);
+    resizeCanvas(is, is);
+
+    shader(myShader);
+    myShader.setUniform("u_resolution", [is, is]);
+    myShader.setUniform("u_background", pg);
+    myShader.setUniform("u_pixeldensity", pixelDensity());
+    rect(0, 0, cs, cs);
+}
+
+function preload() {
+    myShader = loadShader("shader.vert", "shader.frag");
+}
+let myShader;
+
 let palettes = [
-    //"https://coolors.co/fff275-ff8c42-ff3c38-a23e48-6c8ead-083d77-220901-621708-919098-cab6cd",
-    //"https://coolors.co/ffffff-ffffff-ffffff-000000",
-    "https://coolors.co/000000-ffffff-ffffff-ffffff",
-    //"https://coolors.co/ffffff-000000-ffffff-ffffff",
-];
-
-// bauhaus
-palettes = [
-    "https://coolors.co/ebe7dc-ed4316-0d52da-f399bf-0c8d55-f3be0b",
-    "https://coolors.co/f8dbbb-0065bd-ffb700-e02d26",
-    "https://coolors.co/393e46-00adb5-f8b500-fc3c3c-ffffff",
-    "https://coolors.co/ffaea3-f5ae05-ffe9bd-fd2c05",
-];
-
-// // nice small
-// palettes = [
-//     //"https://coolors.co/ff000d-004ce1-fec605-fe99c3-018739-f4eeeb",
-//     //soft 2
-//     //'https://coolors.co/579fae-dfa6ad-476e59-ba4033-e7dcbe-f1cb42-1b191a',
-//     // bauhuas soft
-//     //'https://coolors.co/4d667a-1e1d19-f79f21-e8dabd-6d150f',
-//     // soft 3
-//     // 'https://coolors.co/eaa4ae-1b1b1d-cd342f-ecdbbd-f3c361-29a1ad-336f56',
-//     // // metro
-//     // 'https://coolors.co/185f71-1e1e28-f6ac25-e41a26-e8e2d6'
-//     // die farbe
-//     //'https://coolors.co/e88c05-f2593a-ded4bb-cf1c2f-46618c-63ad72-b5949b'
-//     //warsaw
-//     //'https://coolors.co/1fa1ba-ffa834-f05026-016786-f1516b-428c38'
-// ];
-
-palettes = [
-    // soft
-   // 'https://coolors.co/ec98ac-f4f1d7-e31d34-2b2671-c5dba5-90d0e3-f4bc6d-89c9b8-221e1f',
-    // 2
-   // "https://coolors.co/ff85a1-fffacc-ff001e-0a0099-ccff80-75dfff-ffbd61-52ffd1-420011",
-
-    'https://coolors.co/palette/337556-ee3b10-143b74-b9beb8-fffbe5-131426-e38891-f99707-61b7ac',
+    "https://coolors.co/palette/337556-ee3b10-143b74-b9beb8-fffbe5-131426-e38891-f99707-61b7ac",
 ];
 
 let permutePalettes = true;
@@ -99,7 +116,12 @@ function fillBox(b) {
 
     pg.pop();
 }
-function makeSketch() {
+function drawArt() {
+    noiseSeed(random1ofx() * 99999999999999)
+    for (let _i = 0; _i < 14; _i++) {
+        random1ofx();
+    }
+    setPalette();
     let b = new Box(0.08 * cs, 0, cs * 0.84, cs);
     let margin = 0.15;
     let w = 1 - 2 * margin;
@@ -130,7 +152,28 @@ function makeSketch() {
     }
 
 
+}
 
+function shuffleArr(array, rand) {
+    array = [...array];
+    let currentIndex = array.length,
+        randomIndex;
+    while (currentIndex != 0) {
+        randomIndex = Math.floor(rand() * currentIndex);
+        currentIndex--;
 
-    //fillBox(b)
+        [array[currentIndex], array[randomIndex]] = [
+            array[randomIndex],
+            array[currentIndex],
+        ];
+    }
+    return array;
+}
+
+function randomElem(array, rand) {
+    return array[Math.floor(rand() * array.length)];
+}
+
+function linearElem(array, val) {
+    return array[Math.floor(val * array.length)];
 }

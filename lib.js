@@ -1,79 +1,3 @@
-////////////////////
-//////LIB
-////////////////////
-let is;
-let pg, pg2;
-let myShader;
-let inputHash = fxhash;
-
-// math
-Number.prototype.mod = function (n) {
-    return ((this % n) + n) % n;
-};
-
-// p5
-function setSeeds(hash) {
-    num = hash.split("").reduce((acc, cur) => acc * cur.charCodeAt(0), 1);
-    num = num / 10 ** 90;
-    randomSeed(num);
-    noiseSeed(num);
-}
-
-function preload() {
-    myShader = loadShader("shader.vert", "shader.frag");
-}
-
-function setup() {
-    setSeeds(inputHash);
-    let is = min(windowHeight, windowWidth);
-    createCanvas(is, is);
-    pg = createGraphics(cs, cs);
-    pg2 = createGraphics(cs, cs, WEBGL);
-    pg.pixelDensity(2);
-    pg2.pixelDensity(2);
-    pg.colorMode(HSB);
-
-    setPalette();
-    makeSketch();
-}
-
-function setImage() {
-    clear();
-    let is = min(windowHeight, windowWidth);
-    resizeCanvas(is, is);
-    img = pg2.get();
-    image(img, 0, 0, is, is);
-}
-
-function draw() {
-    if (frameCount > 2) noLoop();
-    myShader.setUniform("u_resolution", [cs, cs]);
-    myShader.setUniform("u_background", pg);
-    pg2.shader(myShader);
-
-    pg2.rect(0, 0, cs, cs);
-
-    setImage();
-    if (frameCount > 2 && should_save()) save(`${inputHash}.png`);
-    if (frameCount > 2) fxpreview();
-}
-
-function should_save() {
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    return Boolean(urlParams.get("xysave"));
-}
-
-function keyPressed() {
-    if (keyCode === LEFT_ARROW) {
-        pg2.save(`${inputHash}.png`);
-    }
-}
-
-function windowResized() {
-    setImage();
-}
-
 // box
 Box = class {
     constructor(x, y, w, h) {
@@ -227,19 +151,6 @@ Box = class {
 
 function vecTriangle(a, b, c) {
     pg.triangle(a.x, a.y, b.x, b.y, c.x, c.y);
-}
-
-// palette
-let palette;
-function setPalette() {
-    if (palettes.length > 0) {
-        palette = random(palettes);
-        palette = palette
-            .split("https://coolors.co/")[1]
-            .split("-")
-            .map((x) => pg.color(`#${x}`));
-        if (permutePalettes) palette = shuffle(palette);
-    }
 }
 
 // gradients
