@@ -1,5 +1,5 @@
 let pg;
-let cs = isRendering ? 8000 : 3000;
+let cs = 8000//isRendering ? 8000 : 3000;
 
 function draw() {
     seedRandomness();
@@ -14,18 +14,14 @@ function keyPressed() {
     }
 }
 
-function windowResized() {
-    setImage();
-}
-
 function setup() {
     noLoop();
     is = min(windowHeight, windowWidth);
+    cs = round((is + 1000) * 1000) / 1000
     let canvas = createCanvas(is, is).elt;
 
     pg = createGraphics(cs, cs);
     pg.colorMode(HSB);
-    pg.pixelDensity(1);
 }
 
 let palette;
@@ -43,16 +39,12 @@ function setPalette() {
 
 function setImage() {
     clear();
+
     is = min(windowHeight, windowWidth);
-    resizeCanvas(is, is);
-    // img = pg.get
-    // img.resize(is, is)
-    copy(pg, 0, 0, cs, cs, 0, 0, is, is)
-    // shader(myShader);
-    // myShader.setUniform("u_resolution", [is, is]);
-    // myShader.setUniform("u_background", pg);
-    // myShader.setUniform("u_pixeldensity", pixelDensity());
-    // rect(0, 0, cs, cs);
+    resizeCanvas(is, is, true);
+    img = pg.get()
+    image (img, 0, 0, is, is)
+    //copy(pg, 0, 0, is, is, 0, 0, is, is)
 }
 
 function preload() {
@@ -120,6 +112,7 @@ function fillBox(b) {
 }
 function drawArt() {
     //cs = min(windowHeight, windowWidth)
+    pg.smooth()
     noiseSeed(random1ofx() * 99999999999999)
     for (let _i = 0; _i < 14; _i++) {
         random1ofx();
@@ -179,4 +172,9 @@ function randomElem(array, rand) {
 
 function linearElem(array, val) {
     return array[Math.floor(val * array.length)];
+}
+
+
+function windowResizedUser() {
+    setImage()
 }
