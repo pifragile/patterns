@@ -47,11 +47,6 @@ function setImage() {
     //copy(pg, 0, 0, is, is, 0, 0, is, is)
 }
 
-function preload() {
-    myShader = loadShader("shader.vert", "shader.frag");
-}
-let myShader;
-
 let palettes = [
     "https://coolors.co/palette/337556-ee3b10-143b74-b9beb8-fffbe5-131426-e38891-f99707-61b7ac",
 ];
