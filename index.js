@@ -1,5 +1,5 @@
 let pg;
-let cs = 8000//isRendering ? 8000 : 3000;
+let cs = isRendering ? 6000 : 2000;
 
 function draw() {
     seedRandomness();
@@ -17,7 +17,7 @@ function keyPressed() {
 function setup() {
     noLoop();
     is = min(windowHeight, windowWidth);
-    cs = round((is + 1000) * 1000) / 1000
+    //cs = round((is + 1000) * 1000) / 1000
     let canvas = createCanvas(is, is).elt;
 
     pg = createGraphics(cs, cs);
